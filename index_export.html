@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es" style="--color-primario: #E85D75; --color-secundario: #C9A6E0; --color-acento: #F4B740;"><head>
+    
+    
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manualidades HG · Flores en cinta</title>
+<meta name="description" content="Ramos de flores en cinta hechos a mano en Santa Marta">
+
+<style>
+  /* ======================================================
+     VARIABLES DE COLOR (se actualizan desde el panel de edición)
+     ====================================================== */
+  :root{
+    --color-primario:#E85D75;   /* rosa vibrante */
+    --color-secundario:#C9A6E0; /* lila pastel */
+    --color-acento:#F4B740;     /* amarillo girasol */
+    --color-hoja:#6B9B6E;       /* verde hoja, fijo */
+    --color-fondo:#FFF7F2;      /* crema rosado, fijo */
+    --color-texto:#3D2B3D;      /* morado oscuro, fijo */
+    --color-tarjeta:#FFFFFF;
+    --sombra: 0 6px 20px rgba(61,43,61,0.10);
+    --sombra-suave: 0 2px 8px rgba(61,43,61,0.08);
+    --radio: 20px;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background:var(--color-fondo);
+    color:var(--color-texto);
+    line-height:1.5;
+    padding-bottom:70px; /* espacio para el botón flotante de editar */
+  }
+  h1,h2,h3{
+    font-family: Georgia, "Times New Roman", serif;
+    margin:0 0 .4em 0;
+    letter-spacing:.2px;
+  }
+  p{ margin:0 0 1em 0; }
+  img{ max-width:100%; display:block; }
+  button{ font-family:inherit; cursor:pointer; }
+  a{ color:inherit; }
+  .oculto{ display:none !important; }
+  .contenedor{ max-width:960px; margin:0 auto; padding:0 20px; }
+
+  /* Foco visible para accesibilidad */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+    outline:3px solid var(--color-primario);
+    outline-offset:2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+
+  /* ======================================================
+     ENCABEZADO
+     ====================================================== */
+  .encabezado{
+    background: linear-gradient(135deg, var(--color-secundario), var(--color-primario) 85%);
+    padding:56px 20px 70px 20px;
+    text-align:center;
+    color:#3D2B3D;
+    position:relative;
+    overflow:hidden;
+  }
+  .encabezado .emoji-logo{
+    font-size:3rem;
+    margin-bottom:8px;
+    filter:drop-shadow(0 4px 8px rgba(0,0,0,.12));
+  }
+  .encabezado h1{
+    font-size:2rem;
+    color:#fff;
+    text-shadow:0 2px 10px rgba(0,0,0,.15);
+  }
+  .encabezado .eslogan{
+    font-style:italic;
+    font-size:1.05rem;
+    color:#fff;
+    opacity:.95;
+    max-width:480px;
+    margin:0 auto;
+  }
+  .ola-divisora{
+    display:block;
+    width:100%;
+    height:40px;
+    margin-top:-2px;
+  }
+
+  @media (min-width:600px){
+    .encabezado h1{ font-size:2.6rem; }
+    .encabezado .emoji-logo{ font-size:3.6rem; }
+  }
+
+  /* ======================================================
+     SECCIÓN "SOBRE EL NEGOCIO"
+     ====================================================== */
+  .sobre{
+    max-width:640px;
+    margin:-34px auto 40px auto;
+    background:var(--color-tarjeta);
+    border-radius:var(--radio);
+    box-shadow:var(--sombra);
+    padding:28px 24px;
+    text-align:center;
+    position:relative;
+    z-index:2;
+  }
+  .sobre h2{ font-size:1.3rem; color:var(--color-primario); }
+  .sobre .rubro{
+    display:inline-block;
+    font-size:.75rem;
+    font-weight:700;
+    letter-spacing:.5px;
+    text-transform:uppercase;
+    color:var(--color-hoja);
+    background:#EAF4EA;
+    padding:4px 12px;
+    border-radius:100px;
+    margin-bottom:12px;
+  }
+
+  /* ======================================================
+     CATÁLOGO
+     ====================================================== */
+  .catalogo{ padding:10px 20px 40px 20px; }
+  .catalogo h2{
+    text-align:center;
+    font-size:1.5rem;
+    margin-bottom:24px;
+  }
+  .catalogo h2::after{
+    content:"";
+    display:block;
+    width:60px; height:4px;
+    background:var(--color-acento);
+    border-radius:4px;
+    margin:10px auto 0 auto;
+  }
+  .grid-productos{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:22px;
+    max-width:960px;
+    margin:0 auto;
+  }
+  @media (min-width:640px){
+    .grid-productos{ grid-template-columns:1fr 1fr; }
+  }
+  @media (min-width:960px){
+    .grid-productos{ grid-template-columns:1fr 1fr 1fr; }
+  }
+
+  .tarjeta-producto{
+    position:relative;
+    background:var(--color-tarjeta);
+    border-radius:var(--radio);
+    box-shadow:var(--sombra-suave);
+    overflow:hidden;
+    transition:transform .25s ease, box-shadow .25s ease;
+    display:flex;
+    flex-direction:column;
+  }
+  .tarjeta-producto:hover{
+    transform:translateY(-4px) rotate(-0.6deg);
+    box-shadow:var(--sombra);
+  }
+
+  /* Etiqueta estilo "cinta" — elemento distintivo, alude a "flores en cinta" */
+  .cinta-etiqueta{
+    position:absolute;
+    top:14px; left:-6px;
+    z-index:3;
+    background:var(--color-acento);
+    color:#3D2B3D;
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.3px;
+    padding:5px 14px 5px 16px;
+    clip-path: polygon(0 50%, 10px 0, 100% 0, 100% 100%, 10px 100%);
+    box-shadow:0 2px 4px rgba(0,0,0,.15);
+  }
+  .cinta-etiqueta::after{
+    content:"";
+    position:absolute;
+    left:0; top:100%;
+    border-style:solid;
+    border-width:5px 5px 0 0;
+    border-color:#C99120 transparent transparent transparent;
+  }
+
+  .imagen-producto{
+    height:150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:4rem;
+    background:linear-gradient(160deg, var(--color-secundario) 0%, var(--color-fondo) 100%);
+  }
+  .imagen-producto img{ height:100%; width:100%; object-fit:cover; }
+
+  .info-producto{ padding:18px 18px 20px 18px; flex:1; display:flex; flex-direction:column; }
+  .info-producto h3{ font-size:1.15rem; }
+  .precio-producto{
+    font-weight:700;
+    color:var(--color-primario);
+    font-size:1.05rem;
+    margin-bottom:8px;
+  }
+  .descripcion-producto{ font-size:.92rem; color:#5a4a5a; flex:1; }
+
+  .btn-pedido{
+    margin-top:12px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    padding:13px 16px;
+    border:none;
+    border-radius:100px;
+    font-weight:700;
+    font-size:.95rem;
+    text-decoration:none;
+    transition:transform .15s ease, filter .15s ease;
+  }
+  .btn-pedido:hover{ transform:scale(1.02); filter:brightness(1.05); }
+  .btn-pedido.whatsapp{ background:#25D366; color:#fff; }
+  .btn-pedido.instagram{ background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7); color:#fff; }
+  .btn-pedido.correo{ background:var(--color-primario); color:#fff; }
+  .btn-pedido.deshabilitado{ background:#ddd; color:#777; cursor:not-allowed; }
+
+  /* ======================================================
+     CONTACTO
+     ====================================================== */
+  .contacto{
+    background:var(--color-secundario);
+    padding:40px 20px;
+    text-align:center;
+  }
+  .contacto h2{ color:#fff; text-shadow:0 1px 6px rgba(0,0,0,.1); }
+  .contacto .ciudad{ color:#fff; opacity:.9; margin-bottom:20px; font-size:.95rem; }
+  .botones-contacto{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    justify-content:center;
+  }
+  .btn-contacto{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 22px;
+    border-radius:100px;
+    background:#fff;
+    color:var(--color-texto);
+    text-decoration:none;
+    font-weight:600;
+    box-shadow:var(--sombra-suave);
+    transition:transform .15s ease;
+  }
+  .btn-contacto:hover{ transform:translateY(-2px); }
+
+  /* ======================================================
+     PIE DE PÁGINA
+     ====================================================== */
+  .pie{
+    text-align:center;
+    padding:22px 20px;
+    font-size:.8rem;
+    color:#8a7a8a;
+  }
+
+  /* ======================================================
+     MODO EDICIÓN — botón flotante
+     ====================================================== */
+  .btn-flotante{
+    position:fixed;
+    bottom:18px; right:18px;
+    z-index:100;
+    background:var(--color-texto);
+    color:#fff;
+    border:none;
+    border-radius:100px;
+    padding:13px 20px;
+    font-size:.9rem;
+    font-weight:700;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+  }
+  body.modo-edicion .btn-flotante{ background:var(--color-primario); }
+
+  /* Panel / barra de edición (cajón inferior, mobile-first) */
+  .barra-edicion{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    z-index:99;
+    background:#fff;
+    border-top:3px solid var(--color-primario);
+    border-radius:18px 18px 0 0;
+    box-shadow:0 -8px 24px rgba(0,0,0,.2);
+    max-height:78vh;
+    overflow-y:auto;
+    padding:18px 18px 90px 18px;
+  }
+  .barra-edicion h2{ font-size:1.1rem; color:var(--color-primario); }
+  .barra-edicion h3{ font-size:.95rem; margin-top:22px; border-top:1px solid #eee; padding-top:14px; }
+  .fila-botones{ display:flex; flex-wrap:wrap; gap:10px; margin:10px 0; }
+  .btn-admin{
+    border:none;
+    border-radius:10px;
+    padding:11px 14px;
+    font-size:.85rem;
+    font-weight:600;
+    background:var(--color-fondo);
+    color:var(--color-texto);
+  }
+  .btn-admin.primario{ background:var(--color-primario); color:#fff; }
+  .btn-admin.peligro{ background:#f5d0d0; color:#8a1f1f; }
+  .btn-admin.secundario{ background:#eee; }
+
+  .lista-admin-productos{ list-style:none; margin:10px 0; padding:0; }
+  .lista-admin-productos li{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--color-fondo);
+    border-radius:12px;
+    padding:8px 10px;
+    margin-bottom:8px;
+  }
+  .lista-admin-productos .emoji-mini{ font-size:1.4rem; width:32px; text-align:center; }
+  .lista-admin-productos .texto-mini{ flex:1; min-width:0; }
+  .lista-admin-productos .texto-mini strong{ display:block; font-size:.85rem; }
+  .lista-admin-productos .texto-mini span{ font-size:.75rem; color:#777; }
+  .lista-admin-productos .acciones-mini{ display:flex; gap:4px; flex-shrink:0; }
+  .lista-admin-productos button{
+    border:none; background:#fff; border-radius:8px; width:30px; height:30px; font-size:.85rem;
+  }
+
+  .instructivo{
+    background:#FFF3E0;
+    border-radius:14px;
+    padding:16px;
+    margin-top:20px;
+    font-size:.85rem;
+  }
+  .instructivo ol{ padding-left:20px; margin:8px 0 0 0; }
+  .instructivo li{ margin-bottom:6px; }
+  .instructivo .nota{ margin-top:10px; font-style:italic; color:#8a6d3b; }
+
+  /* Modales */
+  .modal{
+    position:fixed; inset:0;
+    background:rgba(61,43,61,.55);
+    display:flex; align-items:flex-end;
+    z-index:200;
+  }
+  .modal.oculto{ display:none; }
+  .modal-contenido{
+    background:#fff;
+    width:100%;
+    max-height:88vh;
+    overflow-y:auto;
+    border-radius:18px 18px 0 0;
+    padding:22px 20px 30px 20px;
+  }
+  @media (min-width:640px){
+    .modal{ align-items:center; justify-content:center; }
+    .modal-contenido{ width:520px; border-radius:18px; max-height:85vh; }
+  }
+  .modal-contenido h2{ color:var(--color-primario); font-size:1.15rem; }
+  .campo{ margin-bottom:14px; }
+  .campo label{ display:block; font-size:.82rem; font-weight:600; margin-bottom:5px; }
+  .campo input, .campo textarea{
+    width:100%;
+    padding:11px 12px;
+    border:1.5px solid #e2d8e2;
+    border-radius:10px;
+    font-size:.92rem;
+    font-family:inherit;
+  }
+  .campo textarea{ resize:vertical; min-height:70px; }
+  .campo input[type=color]{ padding:3px; height:42px; cursor:pointer; }
+  .fila-2{ display:flex; gap:10px; }
+  .fila-2 .campo{ flex:1; }
+
+  /* Aviso / toast */
+  .toast{
+    position:fixed;
+    left:50%; bottom:90px;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--color-texto);
+    color:#fff;
+    padding:12px 18px;
+    border-radius:12px;
+    font-size:.85rem;
+    max-width:90%;
+    text-align:center;
+    z-index:300;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+  }
+  .toast.mostrar{ opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto; }
+  .toast.error{ background:#8a1f1f; }
+</style>
+</head>
+<body id="artifacts-component-root-html" class="modo-edicion">
+
+  <!-- ============== VISTA PÚBLICA ============== -->
+  <header id="encabezado" class="encabezado">
+      <div class="emoji-logo">🪻🌻💐</div>
+      <h1>Manualidades HG</h1>
+      <p class="eslogan">Flores en cinta hechas a mano, para cada ocasión</p>
+      <svg class="ola-divisora" viewBox="0 0 500 40" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,20 C125,45 375,-5 500,20 L500,40 L0,40 Z" fill="var(--color-fondo)"></path>
+      </svg></header>
+
+  <main>
+    <section id="sobre" class="sobre">
+      <span class="rubro">Manualidades · Flores en cinta</span>
+      <h2>Sobre nosotros</h2>
+      <p>Hacemos ramos de flores en cinta, en presentaciones individuales o completas, elaborados a mano y personalizados según tu pedido.</p></section>
+    <section id="catalogo" class="catalogo">
+      <h2>Nuestro catálogo</h2>
+      <div id="gridProductos" class="grid-productos">
+      <article class="tarjeta-producto">
+        <span class="cinta-etiqueta">Individual</span>
+        <div class="imagen-producto">
+          🌸
+        </div>
+        <div class="info-producto">
+          <h3>Ramo Individual</h3>
+          <div class="precio-producto">$12.000</div>
+          <p class="descripcion-producto">Una flor en cinta hecha a mano, ideal como detalle pequeño o recuerdo.</p>
+          <a class="btn-pedido instagram" href="https://instagram.com/andrea_r_oliveros" target="_blank" rel="noopener">📸 Pedir por Instagram</a>
+        </div>
+      </article>
+      <article class="tarjeta-producto">
+        <span class="cinta-etiqueta">Ramos</span>
+        <div class="imagen-producto">
+          💐
+        </div>
+        <div class="info-producto">
+          <h3>Ramo Mediano</h3>
+          <div class="precio-producto">$28.000</div>
+          <p class="descripcion-producto">Arreglo con varias flores en cinta combinadas, perfecto para regalar.</p>
+          <a class="btn-pedido instagram" href="https://instagram.com/andrea_r_oliveros" target="_blank" rel="noopener">📸 Pedir por Instagram</a>
+        </div>
+      </article>
+      <article class="tarjeta-producto">
+        <span class="cinta-etiqueta">Personalizado</span>
+        <div class="imagen-producto">
+          🪻
+        </div>
+        <div class="info-producto">
+          <h3>Ramo Personalizado</h3>
+          <div class="precio-producto">Desde $35.000</div>
+          <p class="descripcion-producto">Arma tu ramo a tu gusto: elige colores, cantidad y tamaño según la ocasión.</p>
+          <a class="btn-pedido instagram" href="https://instagram.com/andrea_r_oliveros" target="_blank" rel="noopener">📸 Pedir por Instagram</a>
+        </div>
+      </article></div>
+    </section>
+    <section id="contacto" class="contacto">
+      <h2>Contáctanos</h2>
+      <p class="ciudad">📍 Santa Marta</p>
+      <div class="botones-contacto"><a class="btn-contacto" href="https://instagram.com/andrea_r_oliveros" target="_blank" rel="noopener">📸 Instagram</a><a class="btn-contacto" href="mailto:yudithrodriguez222@gmail.com">✉️ Correo</a></div></section>
+  </main>
+
+  <footer id="pie" class="pie">© 2026 Manualidades HG · Hecho con cariño 🪡</footer>
+
+  <!-- ============== SOLO EDITOR (se elimina al exportar) ============== -->
+  
+
+  
+
+  <!-- Modal: datos del negocio -->
+  
+
+  <!-- Modal: producto -->
+  
+
+  
+
+  <!-- ============== BLOQUE DE DATOS ==============
+       Único bloque que se conserva en la copia exportada.
+       Los caracteres "<" se guardan escapados como \u003c
+       para no romper la etiqueta <script>. -->
+  <script id="datos" type="application/json">{"negocio":{"nombre":"Manualidades HG","eslogan":"Flores en cinta hechas a mano, para cada ocasión","descripcion":"Hacemos ramos de flores en cinta, en presentaciones individuales o completas, elaborados a mano y personalizados según tu pedido.","rubro":"Manualidades · Flores en cinta","emoji":"🪻🌻💐","colorPrimario":"#E85D75","colorSecundario":"#C9A6E0","colorAcento":"#F4B740","whatsapp":"","instagram":"andrea_r_oliveros","correo":"yudithrodriguez222@gmail.com","ciudad":"Santa Marta"},"productos":[{"id":"p1","nombre":"Ramo Individual","precio":"$12.000","descripcion":"Una flor en cinta hecha a mano, ideal como detalle pequeño o recuerdo.","imagen":"🌸","categoria":"Individual"},{"id":"p2","nombre":"Ramo Mediano","precio":"$28.000","descripcion":"Arreglo con varias flores en cinta combinadas, perfecto para regalar.","imagen":"💐","categoria":"Ramos"},{"id":"p3","nombre":"Ramo Personalizado","precio":"Desde $35.000","descripcion":"Arma tu ramo a tu gusto: elige colores, cantidad y tamaño según la ocasión.","imagen":"🪻","categoria":"Personalizado"}]}</script>
+
+  
+
+
+</body></html>
